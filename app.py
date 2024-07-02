@@ -14,7 +14,7 @@ with app.app_context():
 
 
 @app.route('/')
-def hello_world():  # put application's code here
+def hello_world():
     return DB["db"]
 
 
