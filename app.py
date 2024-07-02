@@ -20,6 +20,17 @@ def hello_world():
     return DB["db"]
 
 
+# placeholder for authentication
+@app.route("/auth", methods=["POST"])
+def auth() -> Response:
+    data = request.get_json()
+    if not data:
+        return Response(status=400)
+    if data["password"] == os.environ.get("PASSWORD"):
+        return Response(status=200)
+    return Response(status=401)
+
+
 @app.route("/scenes", methods=["GET"])
 def get_scenes() -> list[dict]:
     return get_scenes_(db=DB)

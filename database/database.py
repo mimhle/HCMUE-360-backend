@@ -1,4 +1,5 @@
 import json
+
 import pymongo
 
 
@@ -27,4 +28,6 @@ def update_scene(id_: int, data: dict, *, db: dict | None = None) -> dict:
 
     with pymongo.MongoClient(db["url"]) as client:
         collection = client[db["db"]]["Scenes"]
-        return json.loads(json.dumps(collection.find_one_and_replace({"id": id_}, data, {"_id": 0}), default=str))
+        return json.loads(
+            json.dumps(collection.find_one_and_replace({"id": id_}, data, {"_id": 0}, return_document=True),
+                       default=str))
