@@ -31,6 +31,15 @@ def auth() -> Response:
     return Response(status=401)
 
 
+@app.before_request
+def check_token():
+    if (request.path == "/auth") or (request.method in ["OPTIONS", "GET"]):
+        return
+    token = request.headers.get("Authorization")
+    if not token or token != os.environ.get("PASSWORD"):
+        return Response(status=401)
+
+
 @app.route("/scenes", methods=["GET"])
 def get_scenes() -> list[dict]:
     return get_scenes_(db=DB)
