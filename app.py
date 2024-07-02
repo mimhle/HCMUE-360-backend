@@ -15,7 +15,7 @@ with app.app_context():
 
 @app.route('/')
 def hello_world():  # put application's code here
-    return str(os.environ.get("MONGO_PRIVATE_URL", "") != "")
+    return DB["db"]
 
 
 @app.route("/scenes/<int:id_>", methods=["GET"])
