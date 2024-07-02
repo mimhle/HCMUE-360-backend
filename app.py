@@ -1,9 +1,11 @@
 from database.database import get_scene as get_scene_, get_scenes as get_scenes_, update_scene as update_scene_
 from flask import Flask, request, Response
+from flask_cors import CORS
 import os
 
 
 app = Flask(__name__)
+CORS(app)
 
 
 with app.app_context():
