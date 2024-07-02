@@ -20,7 +20,7 @@ def hello_world():  # put application's code here
 
 @app.route("/scenes/<int:id_>", methods=["GET"])
 def get_scene_(id_: int) -> dict:
-    return get_scene(id_, db=DB)
+    return get_scene(int(id_), db=DB)
 
 
 if __name__ == "__main__":
