@@ -1,4 +1,4 @@
-from database.database import get_scene as get_scene_, get_scenes as get_scenes_, update_scene as update_scene_
+from database.database import get_scene as get_scene_, get_scenes as get_scenes_, update_scene as update_scene_, add_scene as add_scene_
 from flask import Flask, request, Response
 from flask_cors import CORS
 import os
@@ -56,6 +56,17 @@ def update_scene(id_: int) -> dict | Response:
     if not data:
         return Response(status=400)
     return update_scene_(id_, data, db=DB)
+
+
+@app.route("/scenes", methods=["POST"])
+def add_scene() -> Response:
+    data = request.get_json()
+    if not data:
+        return Response(status=400)
+    try:
+        return Response(status=201) if add_scene_(data, db=DB) else Response(status=500)
+    except ValueError as e:
+        return Response(status=400, response=str(e))
 
 
 if __name__ == "__main__":
