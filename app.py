@@ -69,7 +69,11 @@ def add_scene() -> Response:
     if not data:
         return Response(status=400)
     try:
-        return Response(status=201) if add_scene_(data, db=DB) else Response(status=500)
+        result = add_scene_(data, db=DB)
+        if result:
+            return Response(status=201, response=result)
+        else:
+            return Response(status=500)
     except ValueError as e:
         return Response(status=400, response=str(e))
 

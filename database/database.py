@@ -32,12 +32,14 @@ def update_scene(id_: int, data: dict, *, db: dict | None = None) -> dict:
         if data == {}:
             return json.loads(
                 json.dumps(collection.find_one_and_delete({"id": id_}, {"_id": 0}), default=str))
+        data.pop("id", None)
+        data.pop("_id", None)
         return json.loads(
             json.dumps(collection.find_one_and_replace({"id": id_}, data, {"_id": 0}, return_document=True),
                        default=str))
 
 
-def add_scene(data: dict, *, db: dict | None = None) -> bool:
+def add_scene(data: dict, *, db: dict | None = None) -> dict:
     if not db:
         raise ValueError("db must be provided")
 
@@ -50,4 +52,7 @@ def add_scene(data: dict, *, db: dict | None = None) -> bool:
         last_id = collection.find_one(sort=[("id", -1)])["id"]
         data["id"] = last_id + 1
 
-        return collection.insert_one(data) is not None
+        if collection.insert_one(data):
+            return json.loads(json.dumps(data, default=str))
+        else:
+            raise ValueError("Failed to add scene")
