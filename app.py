@@ -64,14 +64,14 @@ def delete_scene(id_: int) -> dict:
 
 
 @app.route("/scenes", methods=["POST"])
-def add_scene() -> Response:
+def add_scene() -> Response | dict | tuple:
     data = request.get_json()
     if not data:
         return Response(status=400)
     try:
         result = add_scene_(data, db=DB)
         if result:
-            return Response(status=201, response=result, mimetype="application/json")
+            return result, 201
         else:
             return Response(status=500)
     except ValueError as e:
