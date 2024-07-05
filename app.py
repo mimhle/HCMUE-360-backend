@@ -58,6 +58,11 @@ def update_scene(id_: int) -> dict | Response:
     return update_scene_(id_, data, db=DB)
 
 
+@app.route("/scenes/<int:id_>", methods=["DELETE"])
+def delete_scene(id_: int) -> dict:
+    return update_scene_(id_, {}, db=DB)
+
+
 @app.route("/scenes", methods=["POST"])
 def add_scene() -> Response:
     data = request.get_json()
