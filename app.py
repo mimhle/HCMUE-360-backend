@@ -71,7 +71,7 @@ def add_scene() -> Response:
     try:
         result = add_scene_(data, db=DB)
         if result:
-            return Response(status=201, response=result)
+            return Response(status=201, response=result, mimetype="application/json")
         else:
             return Response(status=500)
     except ValueError as e:
